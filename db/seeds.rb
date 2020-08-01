@@ -5,3 +5,20 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+require "open-uri"
+require "json"
+
+Dog.destroy_all
+
+def get_image
+  url = "https://dog.ceo/api/breeds/image/random"
+  res = open(url).read
+  hash = JSON.parse(res)
+
+  hash["message"]
+end
+
+
+20.times  do
+  Dog.create!(name: Faker::Name.female_first_name, description: Faker::ChuckNorris.fact, image: get_image)
+end
